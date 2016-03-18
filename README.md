@@ -1,1 +1,3 @@
 # go-configurator
+
+In development ...
