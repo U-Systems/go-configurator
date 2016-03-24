@@ -9,21 +9,23 @@ import (
 
 type Config struct {
 	configStruct interface{}
-	field []parser.Field
+	configFields []parser.ConfigField
 }
 
 
 func New(configSource interface{}) (*Config, error) {
 	// checking type of config struct
 	if reflect.TypeOf(configSource) != reflect.Ptr {
-		nil, errors.New(fmt.Sprintf("config source must be a pointer to %T", configSource))
+		return nil, errors.New(fmt.Sprintf("config source must be a pointer to %T", configSource))
 	}
 	// check if it struct
 	if reflect.TypeOf(configSource).Elem() != reflect.Struct {
-		nil, errors.New("config source must be a struct")
+		return nil, errors.New("config source must be a struct")
 	}
 
+	config := &Config{}
 
+	return config, nil
 }
 
 func (config *Config) Load(provider ConfigProvider) (interface{}, error) {
