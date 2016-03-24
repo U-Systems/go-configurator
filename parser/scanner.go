@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"io"
 	"bytes"
+	"strings"
 )
 
 const eof = rune(0)
@@ -101,7 +102,7 @@ func (scanner *Scanner) scanIdent() (Token, string) {
 		}
 	}
 
-	switch value := buffer.String(); value {
+	switch value := strings.ToLower(buffer.String()); value {
 	case "is_required":
 		return IS_REQUIRED_TOKEN, value
 	case "has_default":
@@ -121,8 +122,7 @@ func (scanner *Scanner) scanIdent() (Token, string) {
 // e.g config:"has_default 'value'"
 func (scanner *Scanner) scanQuoted() (Token, string) {
 	var buffer bytes.Buffer
-	_ = scanner.read()
-
+	_ = scanner.read() // skip first
 	for {
 		if ch := scanner.read(); ch == eof {
 			return ILLEGAL_TOKEN, ""

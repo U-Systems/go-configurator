@@ -67,6 +67,27 @@ func TestTokens(t *testing.T) {
 			expectedValues: []string{
 				"", "", "field", "", "value", "", "", "", "field", "", "value1", "", "", ""},
 		},
+		{
+			testName: "test numbers",
+			input: "{numbers:[1,2,3],floats:[1.3,2.0]}",
+			expectedTokens: []parser.Token{parser.STRUCT_START_TOKEN,
+				parser.IDENT_TOKEN, parser.COLON_TOKEN,
+				parser.SLICE_START_TOKEN,
+				parser.IDENT_TOKEN, parser.COMMA_TOKEN, parser.IDENT_TOKEN,
+					parser.COMMA_TOKEN, parser.IDENT_TOKEN,
+				parser.SLICE_END_TOKEN,
+				parser.COMMA_TOKEN,
+				parser.IDENT_TOKEN,
+				parser.COLON_TOKEN,
+				parser.SLICE_START_TOKEN,
+				parser.IDENT_TOKEN, parser.COMMA_TOKEN, parser.IDENT_TOKEN,
+				parser.SLICE_END_TOKEN,
+				parser.STRUCT_END_TOKEN,
+				parser.EOF_TOKEN,
+			},
+			expectedValues: []string{"", "numbers", "", "", "1", "", "2", "", "3", "", "",
+				"floats", "", "", "1.3", "", "2.0", "", "", ""},
+		},
 	}
 
 	for _, test := range tests {
